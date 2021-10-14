@@ -65,7 +65,7 @@ export default function Home() {
             <div className="chartsContainer">
                 <div className="pieChartsContainer">
                     <Chart
-                        width={'500px'}
+                        width={'600px'}
                         height={'300px'}
                         chartType="PieChart"
                         loader={<div>Loading Chart</div>}
@@ -79,7 +79,7 @@ export default function Home() {
                 </div>
                 <div className="pieChartsContainer">
                     <Chart
-                        width={'500px'}
+                        width={'600px'}
                         height={'300px'}
                         chartType="PieChart"
                         loader={<div>Loading Chart</div>}
