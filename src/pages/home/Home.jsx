@@ -34,7 +34,7 @@ export default function Home() {
         var tempCheckIn = [
             ['Employee Status', 'Number'],
             ['Not Checked In', res.data.data.total_employees - res.data.data.checked_in_today_count],
-            ['Checked Out', res.data.data.checked_in_today_count],
+            ['Checked In', res.data.data.checked_in_today_count],
         ]
         setCheckedOutData(tempCheckOut)
         setCheckedInData(tempCheckIn)
