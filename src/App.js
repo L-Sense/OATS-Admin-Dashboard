@@ -1,5 +1,5 @@
 import Sidebar from "./components/Sidebar/Sidebar";
-import "./app.css";
+import "./App.css";
 import EmployeeList from "./pages/employeeList/EmployeeList"
 import Employee from "./pages/employee/Employee"
 import NewEmployee from  "./pages/newEmployee/NewEmployee"
