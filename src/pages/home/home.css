@@ -1,0 +1,32 @@
+.home{
+    flex: 4;
+}
+
+.clockContainer{
+    height: 10vh; /* Can be in percentage also. */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.clockDisplay{
+    font-size: 60px;
+}
+
+.chartsContainer{
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pieChartsContainer{
+    height: 50vh;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.pieChartsTitle{
+    font-size: 15px;
+}
