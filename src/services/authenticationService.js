@@ -10,22 +10,20 @@ export const authenticationService = {
     getToken,
 };
 
-async function login(username, password) {
-    if (config.DEBUG) {
-        localStorage.setItem("token", "Bearer TESTINGTOKEN");
-        return Promise.resolve();
-    }
-
+async function login(username, password, history) {
     return await axios
         .post("auth/login", {
-            username: username,
-            password: password,
+            'username': username,
+            'password': password,
         })
         .then((res) => {
-            if(res.data!=="invalid input"){
-                localStorage.setItem("token", res.data.data.Authorization);
-            }
-            console.log(res.data)
+            localStorage.setItem("token", res.data.data.Authorization);
+            history.push('/');
+            return true
+        })
+        .catch((err) => {
+            localStorage.setItem("token", '');
+            return false
         });
 }
 

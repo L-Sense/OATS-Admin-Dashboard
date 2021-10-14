@@ -190,7 +190,9 @@ export default function Attendance() {
                 disabled={loading}
                 />
             { loading ? 
-                <CircularProgress /> : 
+                <div style={{display: 'flex', justifyContent: 'center'}}>
+                    <CircularProgress sx={{ marginX: 'auto' }}/>
+                </div> : 
                 <DataGrid className=''
                     rowHeight={50}
                     rows={rows}

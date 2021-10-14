@@ -88,7 +88,9 @@ export default function Employee() {
     return (
         <div className='employee'>
             {loading ? 
-            <CircularProgress /> : 
+            <div style={{display: 'flex', justifyContent: 'center'}}>
+                <CircularProgress sx={{ marginX: 'auto' }}/>
+			</div> : 
             <div>
                 <div className="employeeTitleContainer">
                     <h1 className='employeeTitle'>Edit Employee Data</h1>

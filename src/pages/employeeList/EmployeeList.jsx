@@ -88,7 +88,9 @@ export default function EmployeeList() {
     return (
         <div className='employeeList'>
             {loading ? 
-                <CircularProgress /> :
+                <div style={{display: 'flex', justifyContent: 'center'}}>
+                    <CircularProgress sx={{ marginX: 'auto' }}/>
+                </div> :
                 <DataGrid
                     rowHeight={100}
                     rows={data}
