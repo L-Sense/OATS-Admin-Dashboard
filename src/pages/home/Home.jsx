@@ -2,6 +2,7 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { Chart } from 'react-google-charts';
+import { CircularProgress } from '@material-ui/core';
 import { authenticationService } from '../../services/authenticationService';
 import { attendanceService } from '../../services/attendanceService';
 
@@ -9,7 +10,8 @@ import './home.css'
 
 
 export default function Home() {
-    const [date, setDate] = useState(new Date())
+    const [date, setDate] = useState(new Date());
+    const [loading, setLoading] = useState(false);
     const tick = () =>{
         setDate(new Date());
     }
@@ -24,7 +26,9 @@ export default function Home() {
     const [checkedInData, setCheckedInData] = useState([])
 
     async function getInitialData(){
+        setLoading(true);
         const res = await attendanceService.getTodayCheckInOutCount()
+        setLoading(false);
         console.log(res)
         var tempCheckOut = [
             ['Employee Status', 'Number'],
@@ -64,32 +68,38 @@ export default function Home() {
             <br></br>
             <div className="chartsContainer">
                 <div className="pieChartsContainer">
-                    <Chart
-                        width={'600px'}
-                        height={'300px'}
-                        chartType="PieChart"
-                        loader={<div>Loading Chart</div>}
-                        data={checkedInData}
-                        options={{
-                          title: 'Check In Information',
-                          pieSliceText: 'value'
-                        }}
-                        rootProps={{ 'data-testid': '1' }}
-                    />
+                    { loading ?
+                        <CircularProgress /> : 
+                        <Chart
+                            width={'600px'}
+                            height={'300px'}
+                            chartType="PieChart"
+                            loader={<div>Loading Chart</div>}
+                            data={checkedInData}
+                            options={{
+                            title: 'Check In Information',
+                            pieSliceText: 'value'
+                            }}
+                            rootProps={{ 'data-testid': '1' }}
+                        />
+                    }
                 </div>
                 <div className="pieChartsContainer">
-                    <Chart
-                        width={'600px'}
-                        height={'300px'}
-                        chartType="PieChart"
-                        loader={<div>Loading Chart</div>}
-                        data={checkedOutData}
-                        options={{
-                          title: 'Check Out Information',
-                          pieSliceText: 'value'
-                        }}
-                        rootProps={{ 'data-testid': '1' }}
-                    />
+                    { loading ?
+                        <CircularProgress /> : 
+                        <Chart
+                            width={'600px'}
+                            height={'300px'}
+                            chartType="PieChart"
+                            loader={<div>Loading Chart</div>}
+                            data={checkedOutData}
+                            options={{
+                            title: 'Check Out Information',
+                            pieSliceText: 'value'
+                            }}
+                            rootProps={{ 'data-testid': '1' }}
+                        />
+                    }
                 </div>
             </div>
         </div>

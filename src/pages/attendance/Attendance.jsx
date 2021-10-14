@@ -3,6 +3,7 @@ import { DataGrid } from '@material-ui/data-grid';
 import { useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { dummy_attendance } from '../../data/dummy_attendance';
+import { CircularProgress } from '@material-ui/core';
 import DatePicker from 'react-datepicker';
 import moment from 'moment'
 import { Redirect } from'react-router-dom';
@@ -47,9 +48,12 @@ export default function Attendance() {
     //Have a date picker. Upon selection, data will be updated with data on that date only.
     //Initiall call API to get today's records
     const [rows, setRows] = useState([]);
+    const [loading, setLoading] = useState(false);
     //Consider put a spinner while loading
     async function getInitialData(){
+        setLoading(true)
         const res = await attendanceService.getTodayAttendance()
+        setLoading(false)
         var tempData = res.data.data
         tempData.map((person)=>{
             person['id'] = person.employee_id
@@ -69,8 +73,10 @@ export default function Attendance() {
     //Update this to set to new date data
     async function handleStartDateChange(date){
         //API call to get data from new date
-        
+        setLoading(true)
+        setStartDate(date)
         const res = await attendanceService.getSpecificDateAttendance(moment(date).format('DD/MM/YYYY'))
+        setLoading(false)
         var tempData = res.data.data
         tempData.map((person)=>{
             person['id'] = person.employee_id
@@ -180,23 +186,28 @@ export default function Attendance() {
                     (date) => {
                         handleStartDateChange(date)
                     }
-                }/>
-            <DataGrid className=''
-                rowHeight={50}
-                rows={rows}
-                columns={columns}
-                pageSize={8}
-                rowsPerPageOptions={[8]}
-                checkboxSelection={false}
-                disableSelectionOnClick
-                getCellClassName={(params) => {
-                    if (params.field != 'status_flag') {
-                      return '';
-                    }
-                    return params.value;
-                  }}
-                onCellEditCommit={handleCellValueChange}
-            />
+                }
+                disabled={loading}
+                />
+            { loading ? 
+                <CircularProgress /> : 
+                <DataGrid className=''
+                    rowHeight={50}
+                    rows={rows}
+                    columns={columns}
+                    pageSize={8}
+                    rowsPerPageOptions={[8]}
+                    checkboxSelection={false}
+                    disableSelectionOnClick
+                    getCellClassName={(params) => {
+                        if (params.field != 'status_flag') {
+                        return '';
+                        }
+                        return params.value;
+                    }}
+                    onCellEditCommit={handleCellValueChange}
+                />
+            }
         </div>
     )
 }

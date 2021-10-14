@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react'
 import './employeeList.css'
 import { DataGrid } from '@material-ui/data-grid';
+import { CircularProgress } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
 import { authenticationService } from '../../services/authenticationService';
 import { employeeService } from '../../services/employeeService';
@@ -14,9 +15,11 @@ import { employeeService } from '../../services/employeeService';
 
 export default function EmployeeList() {
     const [data, setData] = useState([]);
-    
+    const [loading, setLoading] = useState(false);
     async function getAllData(){
+        setLoading(true)
         const res = await employeeService.getAllEmployees()
+        setLoading(false)
         var tempData = res.data.data
         tempData.map((person)=>{
             person['id'] = person.employee_id
@@ -84,14 +87,17 @@ export default function EmployeeList() {
 
     return (
         <div className='employeeList'>
-            <DataGrid
-                rowHeight={100}
-                rows={data}
-                columns={columns}
-                pageSize={6}
-                checkboxSelection={false}
-                disableSelectionOnClick
-            />
+            {loading ? 
+                <CircularProgress /> :
+                <DataGrid
+                    rowHeight={100}
+                    rows={data}
+                    columns={columns}
+                    pageSize={6}
+                    checkboxSelection={false}
+                    disableSelectionOnClick
+                />
+            }
         </div>
     )
 }

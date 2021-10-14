@@ -2,12 +2,13 @@ import React from 'react'
 import {useState, useEffect} from 'react'
 import './employee.css'
 import PersonIcon from '@material-ui/icons/Person';
+import { CircularProgress } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
 import { authenticationService } from '../../services/authenticationService';
 import { employeeService } from '../../services/employeeService'
 
 export default function Employee() {
-
+    const [loading, setLoading] = useState(false);
     const [employeeData, setEmployeeData] = useState([])
 
     const [employeeID, setEmployeeID] = useState('')
@@ -23,7 +24,9 @@ export default function Employee() {
     }
 
     async function getOneData(employeeID){
+        setLoading(true)
         const res = await employeeService.getOneEmployee(employeeID)
+        setLoading(false)
         var tempData = res.data.data
         setEmployeeData(tempData)
     }
@@ -46,8 +49,9 @@ export default function Employee() {
             'employee_name': newEmployeeName,
             'department': newEmployeeDepartmentID,
         }
-
+        setLoading(true)
         let response = await employeeService.updateEmployee(employeeID, requestData)
+        setLoading(false)
         console.log(response.data)
         if(response.data.message!="employee data updated"){
             //Error occurred, handle
@@ -60,7 +64,7 @@ export default function Employee() {
         }
 
         console.log(requestData)
-        alert("Remember to do the API")
+        // alert("Remember to do the API")
         window.location.href='/employees'
     }
 
@@ -83,53 +87,57 @@ export default function Employee() {
     }
     return (
         <div className='employee'>
-            <div className="employeeTitleContainer">
-                <h1 className='employeeTitle'>Edit Employee Data</h1>
-            </div>
-            <div className="employeeContainer">
-                <div className="employeeShow">
-                    <div className="employeeShowTop">
-                        
-                        <div className="employeeShowTopTitle">
-                            <span className="employeeShowName"><b>{employeeData.employee_name}</b></span>
-                            <span className="employeeShowDepartment">Department: <b>{employeeData.department_name}</b></span>
-                        </div>
-                    </div>
-                    <div className="employeeShowBottom">
-                        <span className="employeeShowTitle">Employee details</span>
-                        <div className="employeeShowInfo">
-                            <PersonIcon className= "employeeShowIcon"/>
-                            <span className="employeeShowInfoTitle">Employee ID: {employeeData.employee_id}</span>
-                        </div>
-                    </div>
+            {loading ? 
+            <CircularProgress /> : 
+            <div>
+                <div className="employeeTitleContainer">
+                    <h1 className='employeeTitle'>Edit Employee Data</h1>
                 </div>
-                <div className="employeeUpdate">
-                    <span className="employeeUpdateTitle">Edit</span>
-                    <form onSubmit={handleSubmit} action="" className="employeeUpdateForm">
-                        <div className="employeeUpdateLeft">
-                            <div className="employeeUpdateItem">
-                                <label>Employee's Name</label>
-                                <input type='text' placeholder="Employee's full name"
-                                value={newEmployeeName}
-                                onChange={handleNewEmployeeNameChange}
-                                className="employeeUpdateInput"/>
-                            </div>
-                            <div className="employeeUpdateItem">
-                                <label>Employee's Department ID</label>
-                                <input type='text' placeholder="Employee's department" 
-                                value={newEmployeeDepartmentID}
-                                onChange={handleNewEmployeeDepartmentIDChange}
-                                className="employeeUpdateInput"/>
-                            </div>
+                <div className="employeeContainer">
+                    <div className="employeeShow">
+                        <div className="employeeShowTop">
                             
+                            <div className="employeeShowTopTitle">
+                                <span className="employeeShowName"><b>{employeeData.employee_name}</b></span>
+                                <span className="employeeShowDepartment">Department: <b>{employeeData.department_name}</b></span>
+                            </div>
                         </div>
-                        <div className="employeeUpdateRight">
-                            <button type="submit" className="employeeUpdateButton">Update</button>
+                        <div className="employeeShowBottom">
+                            <span className="employeeShowTitle">Employee details</span>
+                            <div className="employeeShowInfo">
+                                <PersonIcon className= "employeeShowIcon"/>
+                                <span className="employeeShowInfoTitle">Employee ID: {employeeData.employee_id}</span>
+                            </div>
                         </div>
-                    </form>
+                    </div>
+                    <div className="employeeUpdate">
+                        <span className="employeeUpdateTitle">Edit</span>
+                        <form onSubmit={handleSubmit} action="" className="employeeUpdateForm">
+                            <div className="employeeUpdateLeft">
+                                <div className="employeeUpdateItem">
+                                    <label>Employee's Name</label>
+                                    <input type='text' placeholder="Employee's full name"
+                                    value={newEmployeeName}
+                                    onChange={handleNewEmployeeNameChange}
+                                    className="employeeUpdateInput"/>
+                                </div>
+                                <div className="employeeUpdateItem">
+                                    <label>Employee's Department ID</label>
+                                    <input type='text' placeholder="Employee's department" 
+                                    value={newEmployeeDepartmentID}
+                                    onChange={handleNewEmployeeDepartmentIDChange}
+                                    className="employeeUpdateInput"/>
+                                </div>
+                                
+                            </div>
+                            <div className="employeeUpdateRight">
+                                <button type="submit" className="employeeUpdateButton">Update</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
-
+            }
         </div>
     )
 }
