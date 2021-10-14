@@ -3,9 +3,9 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import { CircularProgress } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
+import { CircularProgress } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import oatslogo from '../../assets/oatslogo.png';
 import useStyles from './theme';
@@ -19,16 +19,15 @@ export default function Login() {
 	const [email, setEmail] =  useState("");
 	const [password, setPassword] = useState("");
 	const history = useHistory()
-	const [loading, setLoading] = useState(false);
+	const [loading, setLoading] = useState(false)
 
 	async function handleLogin(email, password, history){
 		setLoading(true)
 		const result = await authenticationService.login(email, password, history);
 		if (!result){
-			alert("login failed");
+			alert("login failed")
 		} 
 		setLoading(false)
-		history.push('/');
 	}
 
 	useEffect(()=>{
@@ -77,7 +76,12 @@ export default function Login() {
 				label="Password"
 				type="password"
 				id="password"
-				autoComplete="new-password"
+				inputProps={{
+					autoComplete: 'new-password',
+					form: {
+					autoComplete: 'off',
+					},
+				}}
 				onChange={e => setPassword(e.target.value)}
 			/>
 			<div style={{display: 'flex', justifyContent: 'center'}}>
@@ -88,8 +92,8 @@ export default function Login() {
 				variant="contained"
 				color="primary"
 				className={classes.submit}
-				onClick={ () => handleLogin(email, password, history) }
 				disabled={loading}
+				onClick={ () => handleLogin(email, password, history) }
 			>
 				Login
 			</Button>

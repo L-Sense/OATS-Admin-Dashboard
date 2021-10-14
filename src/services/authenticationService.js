@@ -33,25 +33,14 @@ function logout() {
 }
 
 async function authorize(){
-    let token = getToken()
-    if (config.DEBUG) {
-        if (token == null) {
-            return Promise.reject()
-        }
-        // console.log("token ", token);
-        return Promise.resolve()
-    }
-    if (token === null) return Promise.reject()
-
     return await axios
         .get("auth/check", {
             headers: {
-                Authorization: getToken()
+                Authorization: getToken(),
             }
         });
 }
 
 function getToken(){
-    var temp = localStorage.getItem('token')
-    return (temp==="undefined" ? null : temp)
+    return localStorage.getItem('token')
 }
