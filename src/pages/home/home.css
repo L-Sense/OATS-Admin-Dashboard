@@ -15,9 +15,11 @@
 
 .chartsContainer{
     height: 80vh;
-    display: flex;
+    display: block;
     justify-content: center;
     align-items: center;
+    position: absolute;
+    left: 40%;
 }
 
 .pieChartsContainer{
