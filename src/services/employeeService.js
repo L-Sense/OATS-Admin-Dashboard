@@ -14,7 +14,11 @@ export const employeeService = {
 
 async function getAllEmployees(){
     return await axios
-        .get("/employee")
+        .get("/employee", {
+            headers: {
+                Authorization: authenticationService.getToken()
+            }
+        })
         .then(res =>{
             return res
         })
@@ -23,7 +27,11 @@ async function getAllEmployees(){
 async function getOneEmployee(employeeId){
     var url = "/employee/".concat(employeeId)
     return await axios
-        .get(url)
+        .get(url, {
+            headers: {
+                Authorization: authenticationService.getToken()
+            }
+        })
         .then(res =>{
             return res
         })
@@ -67,7 +75,11 @@ async function updateEmployee(employeeID, newEmployeeData){
 async function updateImages(){
     var url = "/image"
     return await axios
-        .get(url)
+        .get(url, {
+            headers: {
+                Authorization: authenticationService.getToken()
+            }
+        })
         .then(res =>{
             return res
     })
