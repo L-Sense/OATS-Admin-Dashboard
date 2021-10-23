@@ -2,7 +2,6 @@ import React from 'react'
 import { DataGrid } from '@material-ui/data-grid';
 import { useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
-import { dummy_attendance } from '../../data/dummy_attendance';
 import { CircularProgress } from '@material-ui/core';
 import DatePicker from 'react-datepicker';
 import moment from 'moment'
@@ -28,28 +27,15 @@ const useStyles = makeStyles({
         backgroundColor: 'darkgray',
         color: 'black',
       },
-      /*
-      '& .MC': {
-        backgroundColor: 'darkgray',
-        color: 'black',
-      },
-      
-      // Doesn't work with 2 word flag
-      '& .AWOL': {
-        ba1ckgroundColor: 'red',
-        color: 'white',
-      },
-      */
     },
   });
 
 export default function Attendance() {
     const classes = useStyles();
-    //Have a date picker. Upon selection, data will be updated with data on that date only.
-    //Initiall call API to get today's records
+    
     const [rows, setRows] = useState([]);
     const [loading, setLoading] = useState(false);
-    //Consider put a spinner while loading
+    
     async function getInitialData(){
         setLoading(true)
         const res = await attendanceService.getTodayAttendance()
@@ -67,12 +53,8 @@ export default function Attendance() {
     
 
     let validStatusFlags = new Set(["Normal", "Abnormal", "Leave"])
-    //Note, it is required that the params object contains a unique id for each entry, even though we are not using that id.
-    //onRowEditStop can be put into DataGrid tags<> maybe to update database => if do this then should be able to do editing
     
-    //Update this to set to new date data
     async function handleStartDateChange(date){
-        //API call to get data from new date
         setLoading(true)
         setStartDate(date)
         const res = await attendanceService.getSpecificDateAttendance(moment(date).format('DD/MM/YYYY'))
@@ -88,14 +70,12 @@ export default function Attendance() {
     const [startDate, setStartDate] = useState(new Date());
     
     async function handleCellValueChange(value){
-        // NEED TO CHANGE THIS FOR API
         const rowIndex = rows.findIndex(row => row.id === value.id);
 
         if (rowIndex >= 0) {
             const row = rows[rowIndex];
             const newRows = [...rows];
 
-            // Validate if changed
             var originalValue = row[value.field]
             if (value.field in row && originalValue !== value.value) {
                 if(validStatusFlags.has(value.value)){
@@ -104,33 +84,18 @@ export default function Attendance() {
                 else{
                     newRows[rowIndex][value.field] = originalValue;
                 }
-                console.log("hi")
                 console.log(moment(startDate).format('DD/MM/YYYY'))
                 console.log(row.id)
                 console.log(value.value)
 
                 const res = await attendanceService.updateSpecificDateAttendance(moment(startDate).format('DD/MM/YYYY'), row.id, value.value)
                 if(res.data.message==="invalid input"){
-                    // API returned a fail
                     newRows[rowIndex][value.field] = originalValue;
                     alert("An issue has occurred when submitting the record.")
                 }
                 console.log(res.data.message)
                 
                 setRows(newRows);
-                // Sending to API
-                /*
-                Api.product.update(data).then(res => {
-                    const newRows = [...rows];
-        
-                    if (res.success) {
-                    // Change to new value
-                    newRows[rowIndex][value.field] = value.value;
-                    } else {
-                    // Change to old value
-                    newRows[rowIndex][value.field] = row[value.field];
-                    }
-                */
             }
         }
     }
@@ -166,7 +131,6 @@ export default function Attendance() {
             headerName: 'Status',
             width: 170,
             editable: true,
-            //Change to markdown
         },
     ];
     

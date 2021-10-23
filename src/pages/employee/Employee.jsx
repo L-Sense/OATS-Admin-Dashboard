@@ -54,22 +54,18 @@ export default function Employee() {
         setLoading(false)
         console.log(response.data)
         if(response.data.message!="employee data updated"){
-            //Error occurred, handle
             alert("An error has occured, please try again.")
             return
         } else{
-            //New employee created just fine
             alert("Updated employee: "  + "Name: " + newEmployeeName + "newEmployeeDepartmentID: " + newEmployeeDepartmentID)
             window.location.href='/employees'
         }
 
         console.log(requestData)
-        // alert("Remember to do the API")
         window.location.href='/employees'
     }
 
     const employeeNameValidation = (name)=>{
-        // For each char in name, check if it's alpha
         var letters = /^[A-Za-z\s]+$/;
         for (let i = 0; i < name.length; i++) {
             if(!name[i].match(letters)){

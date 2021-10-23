@@ -8,7 +8,6 @@ import { attendanceService } from '../../services/attendanceService';
 
 import './home.css'
 
-
 export default function Home() {
     const [date, setDate] = useState(new Date());
     const [loading, setLoading] = useState(false);
@@ -54,9 +53,6 @@ export default function Home() {
             <Redirect to="/login"/>
         )
     }
-
-    // Issues with the number here - Maybe just delete this whole page?
-    
 
     return (
         <div className="home">

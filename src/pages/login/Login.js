@@ -12,8 +12,6 @@ import useStyles from './theme';
 import { useHistory } from 'react-router-dom';
 import { authenticationService } from '../../services/authenticationService';
 
-
-
 export default function Login() {
 	const classes = useStyles();
 	const [email, setEmail] =  useState("");
@@ -38,7 +36,6 @@ export default function Login() {
 		.catch( res => {
 			console.log("user not logged in");
 		});
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
 	return (

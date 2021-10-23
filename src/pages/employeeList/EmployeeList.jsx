@@ -1,7 +1,3 @@
-//TODO Dummy data is being imported. Need to change it after API setup 
-//Implement request for handleDelete function also
-
-
 import React from 'react'
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react'
@@ -11,7 +7,6 @@ import { CircularProgress } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
 import { authenticationService } from '../../services/authenticationService';
 import { employeeService } from '../../services/employeeService';
-//import { dummy_employees } from '../../data/dummy_employees';
 
 export default function EmployeeList() {
     const [data, setData] = useState([]);
@@ -40,17 +35,6 @@ export default function EmployeeList() {
             field: 'employee_name',
             headerName: 'Employee',
             width: 340,
-            /*
-            //Feature to show employee's image
-            renderCell: (params)=>{
-                return(
-                    <div className='employeeCell'>
-                        <img className='employeeImage' alt="" src={params.row.avatar}/>
-                        {params.row.employee_name}
-                    </div>
-                )
-            }
-            */
         },
         {
             field: 'department_id',

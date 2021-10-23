@@ -66,18 +66,14 @@ export default function NewEmployee() {
         console.log(response.data)
         await employeeService.updateImages()
         if(response.data.message!="new employee created"){
-            //Error occurred, handle
             alert("An error has occured, please try again.")
             return
         } else{
-            //New employee created just fine
             alert("Submitted new employee: "  + "Name: " + newEmployeeName + "newEmployeeDepartmentID: " + newEmployeeDepartmentID)
-            //window.location.href='/employees'
         }   
     }
 
     const employeeNameValidation = (name)=>{
-        // For each char in name, check if it's alpha
         var letters = /^[A-Za-z\s]+$/;
         for (let i = 0; i < name.length; i++) {
             if(!name[i].match(letters)){
