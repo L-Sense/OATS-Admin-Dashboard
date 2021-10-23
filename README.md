@@ -1,6 +1,12 @@
+# About
+
+This project is the admin dashboard front end for Nanyang Technological University's CZ3002 Advanced Software Engineering. It is to be used in conjunction with the oats-backend and oats-scanner-fe project files, allowing for convenient viewing and management of data via REST APIs.
+
 # Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).  
+
+run npm install to download dependencies
 
 ## Available Scripts
 
